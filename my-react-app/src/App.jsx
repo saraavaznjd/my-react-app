@@ -1,17 +1,19 @@
 import './App.css'
 import Header from "./components/header";
-import Card from "./components/card";
 import Footer from "./components/footer";
+import Counter from './components/counter';
+import Toggle from './components/toggle';
+import TextInput from './components/textInput';
 
 
 function App() {
   return(
     <>
       <Header/>
-      <main>
-        <Card title="React Day 2" text="Learning JSX and functional components." />
-        <Card title="props example" text={"we can pass different data to each card."} />
-      </main>
+      <h1 style={{ textAlign: "center" }}>Day 3 - useState Examples</h1>
+      <Counter></Counter>
+      <Toggle></Toggle>
+      <TextInput></TextInput>
       <Footer/>
     </>
   )
