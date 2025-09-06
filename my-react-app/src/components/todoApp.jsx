@@ -1,24 +1,23 @@
 import { useState, useEffect } from "react";
 
+import TaskForm from "./taskForm";
+import TaskList from "./taskList"
+
 export default function TodoApp() {
     const [task, setTask] = useState('')
-    const [tasks, setTasks] = useState([])
+    const [tasks, setTasks] = useState(() => {
+    // initial state از localStorage
+    const saved = localStorage.getItem("tasks");
+    return saved ? JSON.parse(saved) : [];
+  })
     const [filter, setFilter] = useState("all"); // all | active | done
-
-    //load tasks from localStorage
-    useEffect(() => {
-        const saved = localStorage.getItem('tasks')
-        if (saved) {
-            setTasks(JSON.parse(saved))
-        }
-    }, [])
 
     //save tasks into localStorage
     useEffect(() => {
         localStorage.setItem('tasks', JSON.stringify(tasks))
     }, [tasks])
 
-    const submitClickHandler = (e) => {
+    const addTask = (e) => {
         e.preventDefault()
         if (task.trim() === '') return
         const newTask = { id: Date.now(), text: task, done: false }
@@ -47,33 +46,15 @@ export default function TodoApp() {
     return (
         <div style={{ textAlign: 'center', marginTop: '2rem' }}>
             <h2>My To-Do List</h2>
-            <form onSubmit={submitClickHandler}>
-                <input type="text" placeholder="type here..." value={task} onChange={e => setTask(e.target.value)} />
-                <button type="submit">Add</button>
-            </form>
+            <TaskForm newTask={task} setNewTask={setTask} addTask={addTask} />
 
             <div style={{ margin: "1rem 0" }}>
                 <button onClick={() => setFilter("all")}>All</button>
                 <button onClick={() => setFilter("active")}>Active</button>
                 <button onClick={() => setFilter("done")}>Done</button>
             </div>
-
-            <ul style={{ marginTop: '1rem' }}>
-                {
-                    filteredTasks.map((t) => (
-                        <li key={t.id} style={{ listStyle: 'none' }}>
-                            <span onClick={() => toggleTask(t.id)} style={{
-                                textDecoration: t.done ? "line-through" : 'none',
-                                cursor: "pointer",
-                                marginRight: "1rem"
-                            }}>
-                                {t.text}
-                            </span>
-                            <button onClick={() => deleteTask(t.id)}>❌</button>
-                        </li>
-                    ))
-                }
-            </ul>
+            <TaskList tasks={filteredTasks} toggleTask={toggleTask} deleteTask={deleteTask} />
+            
         </div>
     )
 }
