@@ -1,12 +1,12 @@
 import './App.css'
-import UserList from './components/userList';
+import AxiosExample from './components/axiosExample'
 
 
 function App() {
   return(
     <>
-      <h1 style={{ textAlign: "center" }}>Day 7 - Fetching Data User</h1>
-      <UserList/>
+      <h1 style={{ textAlign: "center" }}>Day 8 - Get Posts with Axios</h1>
+      <AxiosExample/>
     </>
   )
 }
