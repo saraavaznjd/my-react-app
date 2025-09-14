@@ -31,8 +31,9 @@ export default function WeatherApp() {
 
     return (
         <div style={{ padding: '20', fontFamily: 'sans-serif', textAlign: 'center' }}>
-            <input type="text" placeholder="Enter city..." value={city} onChange={e => setCity(e.target.value)} />
-            <button onClick={fetchWeather}>Search</button>
+            <h1 style={{ textAlign: "center" }}>Day 9 - 🌤️ Weather App</h1>
+            <input style={{width:'40%',padding:'1rem 0.5rem', borderRadius:'0.5rem', border:'1px solid #646cff'}} type="text" placeholder="Enter city..." value={city} onChange={e => setCity(e.target.value)} />
+            <button onClick={fetchWeather} style={{padding:'1rem 2.5rem', marginLeft:'0.5rem', fontWeight:'bold', backgroundColor:'#646cff', border:'1px solid #646cff', borderRadius:'0.5rem',color:'white'}}>Search</button>
 
             {loading && <p>Data is loading...</p>}
             {error && <p style={{ color: "red" }}>error</p>}
