@@ -1,64 +1,43 @@
-// App.jsx
-import { BrowserRouter, Routes, Route, Link, useParams } from "react-router-dom";
-import './App.css'
+import { Routes, Route, Link, useParams, Outlet } from "react-router-dom";
+import Navbar from "./components/navbar";
+import Footer from "./components/Footer";
+import Home from "./pages/home";
+import Posts from "./pages/posts";
+import PostDetail from "./pages/postDetail";
+import About from "./pages/about";
 
-function App() {
-  return (
-    <BrowserRouter>
-      <nav>
-        <Link to="/">Home | </Link>
-        <Link to="/products">Products</Link>
-      </nav>
-
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/products" element={<ProductList />} />
-        <Route path="/product/:id" element={<ProductDetail />} />
-        <Route path="*" element={<NotFound />} />
-      </Routes>
-    </BrowserRouter>
-  );
-}
-
-function Home() {
-  return (
-    <>
-      <h1 style={{ textAlign: "center" }}>Day 10 - Routing in React</h1>
-      <h2>🏠 Home</h2>
-    </>
-
-  )
-
-}
-
-function ProductList() {
-  const products = [
-    { id: 1, name: "Phone" },
-    { id: 2, name: "Laptop" },
-    { id: 3, name: "Tablet" }
-  ];
-
+/*function Posts() {
   return (
     <div>
-      <h2>📦 Product List</h2>
       <ul>
-        {products.map(p => (
-          <li key={p.id}>
-            <Link to={`/product/${p.id}`}>{p.name}</Link>
+        {postsArray.map(post => (
+          <li key={post.id}>
+            <Link to={String(post.id)}>{post.title}</Link>
           </li>
+
         ))}
       </ul>
+
+      <Outlet />
     </div>
-  );
-}
+  )
+}*/
 
-function ProductDetail() {
-  const { id } = useParams(); // getting address from id
-  return <h2>📄 Details of product {id}</h2>;
-}
 
-function NotFound() {
-  return <h2>🚫 Page note founde!</h2>;
+export default function App() {
+  return (
+    <div className="flex flex-col min-h-screen">
+      <Navbar />
+      <main className="flex-grow container mx-auto p-4">
+        <Routes>
+        <Route path="/" element={<Home />}></Route>
+        <Route path="/about" element={<About />}></Route>
+        <Route path="/posts" element={<Posts />}>
+          <Route path=":id" element={<PostDetail />}></Route>
+        </Route>
+      </Routes>
+      </main>
+      <Footer />
+    </div>
+  )
 }
-
-export default App;
