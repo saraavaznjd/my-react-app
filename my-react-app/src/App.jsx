@@ -1,15 +1,19 @@
-import AdvancedForms from "./components/advencedForms"
-import CustomHook from "./components/customHook"
+import ThemeSwitcher from "./components/themeSwitcher";
+import { ThemeProvider } from "./components/themeContex";
 
 export default function App() {
-    return (
-      <div>
-        <header className="mb-8">
-        <h1 className="text-4xl font-bold text-center text-gray-800">Day 12 - Advenced Forms & Custom Hooks</h1>
-      </header>
-      <AdvancedForms />
-      <hr className="w-1/2 mx-auto" />
-      <CustomHook />
+  return (
+    <ThemeProvider>
+      <div className="min-h-screen flex flex-col items-center justify-center 
+                      bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100">
+        <h1 className="text-3xl font-bold mb-6">Day - 14 Context API</h1>
+        <h2 className="text-2xl font-bold mb-6">Theme Switcher Demo</h2>
+        <ThemeSwitcher />
+        <p className="mt-6">
+          متن نمونه: با تغییر تم، رنگ پس‌زمینه و متن تغییر می‌کنه 🚀
+        </p>
       </div>
-    )
-  }
+    </ThemeProvider>
+  );
+}
+

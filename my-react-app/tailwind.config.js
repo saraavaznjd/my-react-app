@@ -1,4 +1,5 @@
 export default {
+  darkMode: "class", // خیلی مهم!
   content: [
     "./index.html",
     "./src/**/*.{js,ts,jsx,tsx}",
@@ -6,3 +7,4 @@ export default {
   theme: { extend: {} },
   plugins: [],
 }
+
