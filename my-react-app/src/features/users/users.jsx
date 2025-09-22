@@ -1,19 +1,17 @@
 import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { fetchUsers } from "./usersSlice";
+import { fetchUsers, selectStatus, selectUsersWithOrgEmail } from "./usersSlice";
 
 export default function UsersList() {
 
     const dispatch = useDispatch()
-    const users = useSelector(state => state.users.users)
-    const status = useSelector(state => state.users.status)
+    const users = useSelector(selectUsersWithOrgEmail)
+    const status = useSelector(selectStatus)
     const error = useSelector(state => state.users.error)
 
     useEffect(
         () => {
-            dispatch(fetchUsers())
-            console.log(status);
-            
+            dispatch(fetchUsers())            
         },[dispatch])
 
     if (status === 'loading') return <p>Loading ...</p>

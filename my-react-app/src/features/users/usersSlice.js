@@ -1,39 +1,15 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
+import { createSlice } from '@reduxjs/toolkit'
 
-export const fetchUsers = createAsyncThunk(
-  'users/fetchUsers',
-  async () => {
-    const response = await fetch('https://jsonplaceholder.typicode.com/users');
-    return response.json();
-  }
-);
-
-const initialState = {
-    users: [],
-    status: 'idle',
-    error: 'null'
-}
-
-const usersSlice = createSlice(
-    {
-        name: 'users',
-        initialState,
-        redusers: {},
-        extraReducers: (builder) => {
-            builder
-                .addCase(fetchUsers.pending, state => {
-                    state.status = 'loading'
-                })
-                .addCase(fetchUsers.fulfilled, (state, action) => {
-                    state.status = 'succeeded';
-                    state.users = action.payload;
-                })
-                .addCase(fetchUsers.rejected, (state, action) => {
-                    state.status = 'failed'
-                    state.error = action.error.message
-                })
-        }
-    }
-)
+const usersSlice = createSlice({
+    name: 'users',
+    initialState: {
+        list: [
+            { id: 1, name: "Sara" },
+            { id: 2, name: "Maniyar" }
+        ],
+        loading: false,
+    },
+    reducers:{}
+})
 
 export default usersSlice.reducer
