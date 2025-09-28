@@ -1,36 +1,28 @@
 import React from "react";
-import { useSelector } from "react-redux";
-import {
-  selectUserCount,
-  selectPostsByUser,
-  selectUsersWithPostCount
-} from './features/users/selectors';
+import { useGetPostsQuery, useGetUsersQuery } from "./features/RTKServices/api";
 
-export default function App() {
-  const userCount = useSelector(selectUserCount);
-  const saraPosts = useSelector(selectPostsByUser(1)); // فقط پست‌های سارا
-  const usersWithPosts = useSelector(selectUsersWithPostCount);
+function App() {
+  const { data: posts, error, isLoading } = useGetPostsQuery();
+  const { data: users } = useGetUsersQuery();
+
+  if (isLoading) return <p>Loading...</p>;
+  if (error) return <p>Error occurred!</p>;
 
   return (
-    <div style={{ padding: "20px", fontFamily: "sans-serif" }}>
-      <h1>Users & Posts Dashboard</h1>
-      <p>Total Users: {userCount}</p>
-
-      <h2>Sara's Posts:</h2>
+    <div>
+      <h1>Posts</h1>
       <ul>
-        {saraPosts.map((p) => (
-          <li key={p.id}>{p.title}</li>
-        ))}
-      </ul>
-
-      <h2>Users with Post Count:</h2>
-      <ul>
-        {usersWithPosts.map((u) => (
-          <li key={u.id}>
-            {u.name} — {u.postCount} posts
+        {posts.slice(0, 5).map((post) => (
+          <li key={post.id}>
+            <strong>
+              {users?.find((u) => u.id === post.userId)?.name || "Unknown"}
+            </strong>
+            : {post.title}
           </li>
         ))}
       </ul>
     </div>
   );
 }
+
+export default App;
