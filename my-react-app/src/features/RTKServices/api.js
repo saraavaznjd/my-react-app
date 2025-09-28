@@ -1,16 +1,49 @@
-import {createApi,fetchBaseQuery} from '@reduxjs/toolkit/query/react'
+import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 
 export const api = createApi({
     reducerPath: 'api',
-    baseQuery: fetchBaseQuery({baseUrl: 'https://jsonplaceholder.typicode.com'}),
+    baseQuery: fetchBaseQuery({ baseUrl: 'https://jsonplaceholder.typicode.com' }),
+    tagTypes: ['posts'],
     endpoints: builder => ({
         getPosts: builder.query({
-            query: () => '/posts'
+            query: () => '/posts',
+            providesTags: ['posts']
         }),
         getUsers: builder.query({
             query: () => '/users'
+        }),
+
+        createPost: builder.mutation({
+            query: (newPost) => ({
+                url: '/posts',
+                method: "POST",
+                body: newPost
+            }),
+            invalidatesTags: ['posts']
+        }),
+
+        updatePost: builder.mutation({
+            query: ({id, ...rest}) => ({
+                url: `/posts/${id}`,
+                method: "PUT",
+                body: rest
+            }),
+            invalidatesTags: ['posts']
+        }),
+
+        deletePost: builder.mutation({
+            query: id => ({
+                url: `posts/${id}`,
+                method: "DELETE"
+            }),
+            invalidatesTags: ['posts']
         })
     })
 })
 
-export const {useGetPostsQuery, useGetUsersQuery} = api
+export const { 
+    useGetPostsQuery, 
+    useGetUsersQuery, 
+    useCreatePostMutation, 
+    useDeletePostMutation, 
+    useUpdatePostMutation } = api
