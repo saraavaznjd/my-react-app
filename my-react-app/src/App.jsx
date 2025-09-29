@@ -1,38 +1,32 @@
 import React from "react";
-import {
-  useGetPostsQuery,
-  useCreatePostMutation,
-  useUpdatePostMutation,
-  useDeletePostMutation,
-} from "./features/RTKServices/api";
+import Posts from "./BlogByRTK/posts/posts";
+import Users from "./BlogByRTK/users/users";
+import { useSelector, useDispatch } from "react-redux";
+import { login, logout } from "./BlogByRTK/auth/authSlice";
 
-export default function Posts() {
-  const { data: posts, isLoading } = useGetPostsQuery();
-  const [createPost] = useCreatePostMutation();
-  const [updatePost] = useUpdatePostMutation();
-  const [deletePost] = useDeletePostMutation();
-
-  if (isLoading) return <p>Loading...</p>;
+export default function App() {
+  const user = useSelector((state) => state.auth.user);
+  const dispatch = useDispatch();
 
   return (
-    <div>
-      <h1>Posts</h1>
-      <button
-        onClick={() => createPost({ title: "New", body: "Content", userId: 1 })}
-      >
-        Add Post
-      </button>
+    <div style={{ padding: "20px" }}>
+      <h1>Blog Project</h1>
 
-      {posts.map((post) => (
-        <div key={post.id} style={{ border: "1px solid gray", margin: "8px" }}>
-          <h2>{post.title}</h2>
-          <p>{post.body}</p>
-          <button onClick={() => updatePost({ id: post.id, title: "Updated" })}>
-            Update
-          </button>
-          <button onClick={() => deletePost(post.id)}>Delete</button>
+      {user ? (
+        <div>
+          <p>Welcome, {user.name}!</p>
+          <button onClick={() => dispatch(logout())}>Logout</button>
+          <Posts />
         </div>
-      ))}
+      ) : (
+        <div>
+          <p>Please login:</p>
+          <button onClick={() => dispatch(login("Sara"))}>Login as Sara</button>
+        </div>
+      )}
+
+      <hr />
+      <Users />
     </div>
   );
 }
