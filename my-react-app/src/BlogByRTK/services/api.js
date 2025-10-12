@@ -3,17 +3,12 @@ import { createApi,fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 export const api = createApi({
     reducerPath: 'api',
     baseQuery: fetchBaseQuery({baseUrl: "https://jsonplaceholder.typicode.com"}),
-    tagTypes: ['posts' , 'users'],
+    tagTypes: ['posts' , 'users', 'comments'],
     endpoints: (builder) => ({
-
+        //posts
         getPosts: builder.query({
             query: () => '/posts',
             providesTags: ['posts']
-        }),
-
-        getUsers: builder.query({
-            query: () => '/users',
-            providesTags: ['users']
         }),
 
         addPost: builder.mutation({
@@ -40,7 +35,20 @@ export const api = createApi({
                 method: "DELETE",
             }),
             invalidatesTags: ['posts']
-        })
+        }),
+        //users
+        getUsers: builder.query({
+            query: () => '/users',
+            providesTags: ['users']
+        }),
+        //comments
+        getComments: builder.query({
+            query: (postId) => `/comments?${postId}`,
+            providesTags: ['comments']
+        }),
+
+
+
     })
 })
 
@@ -49,5 +57,6 @@ export const {
     useGetUsersQuery,
     useAddPostMutation,
     useUpdatePostMutation,
-    useDeletePostMutation
+    useDeletePostMutation,
+    useGetCommentsQuery
 } = api
