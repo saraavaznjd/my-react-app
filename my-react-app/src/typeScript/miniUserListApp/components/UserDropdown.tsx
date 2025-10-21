@@ -9,14 +9,14 @@ type User = {
 }
 
 export const UserDropdown: React.FC = () => {
-    const {users:users, loading} = useFetch<User[]>("https://jsonplaceholder.typicode.com/users")
+    const {users:users, loading} = useFetch<User>("https://jsonplaceholder.typicode.com/users")
     const {setSelectedUser} = useUserContext()
 
     if(loading) return <p>Loading...</p>
 
     return(
         <select  onChange={(e) => {
-        const user = users.find((u) => u.id === Number(e.target.value));
+        const user = users?.find((u) => u.id === Number(e.target.value));
         if (user) setSelectedUser(user);
       }}
         >
