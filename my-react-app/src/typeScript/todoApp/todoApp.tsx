@@ -1,10 +1,15 @@
-import React, { useReducer, useState } from "react";
-import type { Reducer } from "react";
-import { initialState, todoReducer } from "./todoReducer.js";
+import React, { useContext, useState } from "react";
+import { todoContext } from "./todoContext.js";
 
 export default function TodoApp() {
-  const [todos, dispatch] = useReducer(todoReducer, initialState);
+  const context = useContext(todoContext)
   const [text, setText] = useState("");
+
+  if(!context){
+    throw new Error("Context must be use in provider!");
+  }
+
+  const {todos,dispatch} = context
 
   const addTodo = () => {
     if (!text.trim()) return;
@@ -13,8 +18,8 @@ export default function TodoApp() {
   };
 
   return (
-    <div className="p-6 max-w-md mx-auto">
-      <h1 className="text-2xl font-bold mb-4">Typed Todo App ✅</h1>
+    <div className="p-6 max-w-xl mx-auto">
+      <h1 className="text-2xl font-bold mb-4">Typed Todo App With Context + Reducer✅</h1>
 
       <div className="flex gap-2 mb-4">
         <input
