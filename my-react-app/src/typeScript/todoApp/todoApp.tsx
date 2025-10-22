@@ -9,17 +9,17 @@ export default function TodoApp() {
     throw new Error("Context must be use in provider!");
   }
 
-  const {todos,dispatch} = context
+  const {todos,addTodo,toggleTodo,removeTodo} = context
 
-  const addTodo = () => {
+  const addingTodo = () => {
     if (!text.trim()) return;
-    dispatch({ type: "ADD", payload: text });
+    addTodo(text);
     setText("");
   };
 
   return (
-    <div className="p-6 max-w-xl mx-auto">
-      <h1 className="text-2xl font-bold mb-4">Typed Todo App With Context + Reducer✅</h1>
+    <div className="p-6 max-w-4xl mx-auto">
+      <h1 className="text-2xl font-bold mb-4">Typed Todo App With Context + Reducer + useMemo + useCallback✅</h1>
 
       <div className="flex gap-2 mb-4">
         <input
@@ -28,7 +28,7 @@ export default function TodoApp() {
           onChange={(e) => setText(e.target.value)}
           placeholder="Enter todo..."
         />
-        <button className="bg-blue-500 text-white px-4" onClick={addTodo}>
+        <button className="bg-blue-500 text-white px-4" onClick={addingTodo}>
           Add
         </button>
       </div>
@@ -37,14 +37,14 @@ export default function TodoApp() {
         {todos.map((todo) => (
           <li key={todo.id} className="flex justify-between mb-2">
             <span
-              onClick={() => dispatch({ type: "TOGGLE", payload: todo.id })}
+              onClick={() => toggleTodo(todo.id)}
               className={todo.completed ? "line-through text-gray-400" : ""}
             >
               {todo.text}
             </span>
             <button
               className="text-red-500"
-              onClick={() => dispatch({ type: "REMOVE", payload: todo.id })}
+              onClick={() => removeTodo(todo.id)}
             >
               ✕
             </button>

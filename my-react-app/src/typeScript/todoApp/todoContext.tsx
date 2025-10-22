@@ -1,4 +1,4 @@
-import { createContext, useReducer } from "react";
+import { createContext, useCallback, useMemo, useReducer } from "react";
 import type { Action, TodoContextType, TodoState } from "./type.js";
 
 
@@ -25,5 +25,11 @@ export const todoContext = createContext<TodoContextType|undefined>(undefined)
 export const TodoProvider: React.FC<{children: React.ReactNode}> = ({children}) => {
     const [todos, dispatch] = useReducer(todoReducer,[])
 
-    return <todoContext.Provider value={{todos,dispatch}}>{children}</todoContext.Provider>
+    const addTodo = useCallback((text:string) => {dispatch({type:"ADD",payload:text})},[])
+    const toggleTodo = useCallback((id: number) => {dispatch({type:"TOGGLE",payload:id})},[])
+    const removeTodo = useCallback((id: number) => {dispatch({type:"REMOVE",payload:id})},[])
+
+    const value = useMemo(() => ({todos,addTodo,toggleTodo,removeTodo}),[todos])
+
+    return <todoContext.Provider value={value}>{children}</todoContext.Provider>
 }

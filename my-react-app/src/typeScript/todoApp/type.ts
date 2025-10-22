@@ -15,5 +15,7 @@ export type TodoState = Todo[]
 
 export type TodoContextType = {
     todos: TodoState
-    dispatch: Dispatch<Action>
+    addTodo: (text: string) => void
+    toggleTodo: (id: number) => void
+    removeTodo: (id: number) => void
 }
